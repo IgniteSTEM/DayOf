@@ -25,7 +25,8 @@ static navigationOptions = {
 }
 
 var url = 'http://ignite-stem.herokuapp.com/api/schedule';
-var Data = React.createClass({
+var createReactClass = require('create-react-class');
+var Data = createReactClass({
   getInitialState: function() {
     return {
       dataSource: new ListView.DataSource({
@@ -117,7 +118,7 @@ class Schedule extends React.Component {
     <View  style={styles.container}>
     
     <ScrollView>
-
+  
     <Data/>
 
     <Button

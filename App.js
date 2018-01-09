@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight } from 'react-native';
 import { TabNavigator, StackNavigator} from 'react-navigation';
 import Events from './events.js'
 import { Constants, Notifications, Permissions } from 'expo';
 
-class MyHomeScreen extends React.Component {
+class MyHomeScreen extends Component {
 static navigationOptions = {
     tabBarLabel: 'Home',
     title: 'igniteSTEM',
@@ -107,10 +107,10 @@ var Data = createReactClass({
 
 class Schedule extends React.Component {
 	static navigationOptions = {
-    tabBarLabel: 'Schedule',
-    headerTitle: 'igniteSTEM',
-    // Note: By default the icon is only shown on iOS. Search the showIcon option below.
-  }
+        tabBarLabel: 'Schedule',
+        headerTitle: 'igniteSTEM',
+        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
+    }
    
 
   render() {

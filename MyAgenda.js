@@ -10,27 +10,6 @@ class MyAgenda extends React.Component {
         headerTitle: 'igniteSTEM',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
-    constructor({initialState}) {
-    super();
-    this.state = {
-      button: initialState,
-    }
-    /*console.log('hi' + initialState);*/
-  }
-
-componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.props.initialState) !== JSON.stringify(nextProps.initialState)) 
-    {
-           this.setState({ button: nextProps.initialState });  
-    }
-    
-}
-
-handleChange() {
-    this.setState({ button: this.props.initialState});
-  }
-
-   
 
   render() {
     

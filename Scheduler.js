@@ -6,6 +6,7 @@ import Schedule from './Schedule.js';
 import MyAgenda from './MyAgenda.js';
 import MyHomeScreen from './MyHomeScreen.js';
 
+var url = 'http://ignite-stem.herokuapp.com/api/schedule';
 
 var textElem = React.createElement(Data);
 
@@ -13,10 +14,37 @@ class Scheduler extends React.Component {
     constructor() {
       super();
       this.state = {
+          loaded: false,
         buttons: this.populateStates(),
       };
    }
 
+  componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+          var length = responseData.data.length;
+          var buttons = [];
+          for (var i = 0; i < length; i++) {
+              buttons.push({
+                    ...responseData.data[i],
+                  row: i,
+                  button: false,
+              });
+          }
+          console.log("Loaded");
+        this.setState({
+          // dataSource: this.state.dataSource.cloneWithRows(responseData.data),
+          loaded: true,
+          buttons,
+        });
+      })
+      .done();
+  }
    populateStates() {
     var buttons = [];
     for (var i = 0; i < 6; i++) {
@@ -39,16 +67,22 @@ class Scheduler extends React.Component {
 
   onChildChanged(newState, rowID){
     var dataClone = this.state.buttons;
-    console.log(rowID);
+      console.log('Child changed');
+      console.log(dataClone);
     dataClone[rowID].button = newState;
     this.setState({
       buttons: dataClone
     });
-    console.log(this.state.buttons);
     }
    
 
   render() {
+      console.log("Parent:");
+      console.log(this.state);
+      if (this.state.buttons.length == 0) {
+          console.log(this.state.buttons.length);
+          return (<Text>Loading...</Text>);
+      }
     return (
       <View>
         <Schedule initialState={this.state.buttons} callbackParent={(newState, rowID) => this.onChildChanged(newState, rowID)}/>

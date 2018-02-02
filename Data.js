@@ -15,8 +15,8 @@ class Data extends Component {
         buttons: initialState,
         loaded: false,
         dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2
-      }),
+            rowHasChanged: (row1, row2) => row1 !== row2
+        }),
       }
     }
     /*this.handleState = this.handleState.bind(this)  */
@@ -28,32 +28,14 @@ class Data extends Component {
     }
     
 }
-  componentDidMount() {
-    this.fetchData();
-  }
-
-  fetchData() {
-    fetch(url)
-      .then((response) => response.json())
-      .then((responseData) => {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(responseData.data),
-          loaded: true,
-          buttons: this.props.initialState,
-        });
-      })
-      .done();
-  }
 
   render() {
-    //console.log(this.props);
-    if (!this.state.loaded) {
-      return this.renderLoadingView();
-    }
+    console.log(this.props.initialState);
+    const ds = this.state.dataSource.cloneWithRows(this.props.initialState);
 
     return (
       <ListView
-        dataSource={this.state.dataSource}
+        dataSource={ds}
         renderRow={this.renderMovie.bind(this)}
         style={styles.listView}
       />
@@ -72,9 +54,12 @@ class Data extends Component {
 
 
   renderMovie(rowData: string, sectionID: number, rowID: number) {
+      console.log("Rendering row");
+      console.log(rowData);
+      console.log(this.props.initialState[rowID]);
     return (
       <Events name = {rowData.name} location = {rowData.location} time = {rowData.time} onPress={ () => this.notification(rowID, rowData)}
-      initialState={this.props.initialState} callbackParent={this.props.callbackParent} rowID={rowID} />
+      initialState={this.props.initialState[rowID]} callbackParent={this.props.callbackParent} rowID={rowID} />
     );
   }
 

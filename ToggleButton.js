@@ -3,32 +3,16 @@ import {Text, View, Image, StyleSheet, TouchableHighlight } from 'react-native';
 
 class ToggleButton extends React.Component {
 
-constructor(props) {
-    super(props);
-    this.state = {
-      button: this.props.initialState[this.props.rowID],
-    }
-    
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.props.initialState) !== JSON.stringify(nextProps.initialState)) 
-    {
-           this.setState({ button: nextProps.initialState });  
-    }
-    
-}
-
  clickedMe(){
     this.props.onPress();
-    var newState = !this.state.button;
-    this.setState({ button: newState }); // we update our state
+    var newState = !this.props.initialState.button;
+     console.log("Passing changed(): ", newState);
     this.props.callbackParent(newState, this.props.rowID);
  }
 
  changed(){
-	var newState = !this.state.button;
-    this.setState({ button: newState }); // we update our state
+    var newState = !this.props.initialState.button;
+     console.log("Passing changed(): ", newState);
     this.props.callbackParent(newState, this.props.rowID);
  }
 
@@ -39,6 +23,7 @@ constructor(props) {
  this.props.theStateHandle(current);
  }*/
   render() {
+      console.log(this.props);
     return (
       <TouchableHighlight underlayColor='rgba(0,0,0,.1)' style={styles.thumbnail} onPress={() => this.clickedMe()} onChange={() => this.changed()}>
           <Image
@@ -49,7 +34,7 @@ constructor(props) {
             
             	<Image
           			source={require('./checkbox.png')}
-          			style={[styles.checkVisible, this.state.button ? {opacity: 1} : {opacity: 0}]}
+          			style={[styles.checkVisible, this.props.initialState.button ? {opacity: 1} : {opacity: 0}]}
          			>
          			</Image>
             </View>

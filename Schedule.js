@@ -11,35 +11,12 @@ class Schedule extends React.Component {
         headerTitle: 'igniteSTEM',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
-constructor({initialState}) {
-    super();
-    this.state = {
-      button: initialState,
-      
-    }
-   
-    /*console.log('hi' + initialState);*/
-  }
-
-  handleChange() {
-    this.setState({ button: this.props.initialState});
-    console.log(this.state.buttons);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if(JSON.stringify(this.props.initialState) !== JSON.stringify(nextProps.initialState)) 
-    {
-           this.setState({ button: nextProps.initialState });  
-    }
-    
-}
-   
 
   render() {
     
+      console.log(this.props.initialState);
     return (
     <View  style={styles.container}>
-    
     <ScrollView>
   
     <Data initialState={this.props.initialState} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>

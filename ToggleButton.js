@@ -6,14 +6,8 @@ class ToggleButton extends React.Component {
  clickedMe(){
     this.props.onPress();
     var newState = !this.props.initialState.button;
-     console.log("Passing changed(): ", newState);
-    this.props.callbackParent(newState, this.props.rowID);
- }
-
- changed(){
-    var newState = !this.props.initialState.button;
-     console.log("Passing changed(): ", newState);
-    this.props.callbackParent(newState, this.props.rowID);
+     // console.log("Passing changed(): ", newState);
+    this.props.callbackParent(newState, this.props.rowID, this.props.screen);
  }
 
 
@@ -23,9 +17,9 @@ class ToggleButton extends React.Component {
  this.props.theStateHandle(current);
  }*/
   render() {
-      console.log(this.props);
+      // console.log(this.props);
     return (
-      <TouchableHighlight underlayColor='rgba(0,0,0,.1)' style={styles.thumbnail} onPress={() => this.clickedMe()} onChange={() => this.changed()}>
+      <TouchableHighlight underlayColor='rgba(0,0,0,.1)' style={styles.thumbnail} onPress={() => this.clickedMe()}>
           <Image
           source={require('./igniteStemLogo.png')}
           style={styles.picture}

@@ -30,7 +30,7 @@ class Data extends Component {
 }
 
   render() {
-    console.log(this.props.initialState);
+    // console.log(this.props.initialState);
     const ds = this.state.dataSource.cloneWithRows(this.props.initialState);
 
     return (
@@ -54,13 +54,16 @@ class Data extends Component {
 
 
   renderMovie(rowData: string, sectionID: number, rowID: number) {
-      console.log("Rendering row");
-      console.log(rowData);
-      console.log(this.props.initialState[rowID]);
+      // console.log("Rendering row");
+      // console.log(rowData);
+      // console.log(this.props.initialState[rowID]);
+    if(this.props.personalSchedule == 0 && this.state.buttons[rowID].button == true || this.props.personalSchedule == 1) {
     return (
       <Events name = {rowData.name} location = {rowData.location} time = {rowData.time} onPress={ () => this.notification(rowID, rowData)}
-      initialState={this.props.initialState[rowID]} callbackParent={this.props.callbackParent} rowID={rowID} />
-    );
+      initialState={this.props.initialState[rowID]} screen = {this.props.screen} callbackParent={this.props.callbackParent} rowID={rowID} />
+      );
+    }
+    else return (<View/>);
   }
 
   notification(rowID, rowData){

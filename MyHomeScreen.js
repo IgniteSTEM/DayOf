@@ -12,6 +12,8 @@ static navigationOptions = {
   };
 
   render() {
+    //console.log(this.props);
+    //this.props.callbackScreen(this.props.navigation.state.routeName);
     return (
       <View style={styles.home}>
       

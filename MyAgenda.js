@@ -12,18 +12,13 @@ class MyAgenda extends React.Component {
     };
 
   render() {
-    
+    //this.props.callbackScreen('MySchedule');
     return (
     <View  style={styles.container}>
     
     <ScrollView>
   
-    <Data initialState={this.props.initialState} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
-
-    <Button
-        onPress={() => this.props.navigation.navigate('Home')}
-        title="Go Home"
-      />
+    <Data personalSchedule = {0} initialState={this.props.initialState} screen = {'MySchedule'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
       
     </ScrollView>
     
@@ -31,6 +26,8 @@ class MyAgenda extends React.Component {
     );
   }
 }
+
+
 
 
 const styles = StyleSheet.create({

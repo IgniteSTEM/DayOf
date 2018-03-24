@@ -13,18 +13,12 @@ class Schedule extends React.Component {
     };
 
   render() {
-    
-      console.log(this.props.initialState);
     return (
     <View  style={styles.container}>
     <ScrollView>
   
-    <Data initialState={this.props.initialState} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
+    <Data personalSchedule = {1} initialState={this.props.initialState} screen = {'Scheduler'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
 
-    <Button
-        onPress={() => this.props.navigation.navigate('Home')}
-        title="Go Home"
-      />
       
     </ScrollView>
     

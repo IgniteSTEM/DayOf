@@ -31,7 +31,7 @@ class Events extends React.Component {
     return (
      <View style = {styles.event} >
      <ToggleButton onPress={this.props.onPress} initialState={this.props.initialState} callbackParent={this.props.callbackParent}
-     rowID={this.props.rowID}/>
+     rowID={this.props.rowID} screen = {this.props.screen}/>
       <View style = {styles.rightContainer}>
      	<Text style = {styles.name}> {name} </Text>
      	<Text style = {styles.location}> Location: {location} </Text>

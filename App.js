@@ -1,43 +1,135 @@
 import React, { Component } from 'react';
-import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight } from 'react-native';
-import { TabNavigator, StackNavigator} from 'react-navigation';
+import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight, AsyncStorage } from 'react-native';
+import { TabNavigator, StackNavigator, NavigationActions} from 'react-navigation';
 import Data from './Data.js';
 import MyHomeScreen from './MyHomeScreen.js';
-import Scheduler from './Scheduler.js';
+import Schedule from './Schedule.js';
+import MyAgenda from './MyAgenda.js';
 
+var url = 'http://ignite-stem.herokuapp.com/api/schedule';
 
-const SimpleTabs = TabNavigator(
-  {
-    Home: {
-      screen: MyHomeScreen,
-    },
-    Scheduler: {
-      screen: Scheduler,
-    },
-  },
-    
-  {
-  	title: 'igniteSTEM',
-  	tabBarPosition: 'top',
-    tabBarOptions: {
-      activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#fff',
-      style: {
-      marginTop: Platform.OS === 'ios' ? 50 : 24
-  	},
+var textElem = React.createElement(Data);
 
-    },
+class Scheduler extends React.Component {
+    constructor() {
+      super();
+      this.state = {
+        loaded: false,
+        buttons: [],
+        currentScreen: 'Home'
+      };
+      this.getKey();
+      //if(this.state.)
+      console.log(JSON.stringify(this.state.buttons));
+   }
+
+   async getKey() {
+    try {
+      const value = await AsyncStorage.getItem('@MySuperStore:key');
+      this.setState({buttons: JSON.parse(value)});
+    } catch (error) {
+      this.fetchData();
+    }
   }
-);
 
-/*const StacksOnTabs = StackNavigator({
-  Root: {
-    screen: SimpleTabs,
-  },
-  Profile: {
-    screen: MyProfileScreen,
-    path: '/people/:name',
-  },
-  });*/
+  async saveKey(value) {
+    try {
+      await AsyncStorage.setItem('@MySuperStore:key', value);
+    } catch (error) {
+      console.log("Error saving data" + error);
+    }
+  }
+
+  // async resetKey() {
+  //   try {
+  //     await AsyncStorage.removeItem('@MySuperStore:key');
+  //     const value = await AsyncStorage.getItem('@MySuperStore:key');
+  //     this.setState({myKey: value});
+  //   } catch (error) {
+  //     console.log("Error resetting data" + error);
+  //   }
+  // }
+
+
+  fetchData() {
+    fetch(url)
+      .then((response) => response.json())
+      .then((responseData) => {
+          var length = responseData.data.length;
+          var buttons = [];
+          for (var i = 0; i < length; i++) {
+              buttons.push({
+                    ...responseData.data[i],
+                  row: i,
+                  button: false,
+              });
+          }
+          // console.log("Loaded");
+        this.setState({
+          // dataSource: this.state.dataSource.cloneWithRows(responseData.data),
+          loaded: true,
+          buttons,
+          currentScreen: 'Home'
+        });
+      })
+      .done();
+  }
+
+  onChildChanged(newState, rowID, Screen){
+    var dataClone = this.state.buttons;
+      // console.log('Child changed');
+      // console.log(dataClone);
+    dataClone[rowID].button = newState;
+    this.setState({
+      buttons: dataClone,
+      currentScreen: Screen
+    });
+    //this.resetKey();
+    this.saveKey(JSON.stringify(this.state.buttons));
+  }
+
+  render() {
+    
+    //const { navigate } = this.props.navigation.state.routeName;
+    const SimpleTabs = TabNavigator(
+          {
+            Home: {
+              screen: MyHomeScreen
+            },
+            Scheduler: {
+              screen: props=> <Schedule initialState={this.state.buttons} callbackParent={(newState, rowID, Screen) => this.onChildChanged(newState, rowID, Screen)}/>,
+            },
+            MySchedule: {
+              screen: props=> <MyAgenda initialState={this.state.buttons} callbackParent={(newState, rowID, Screen) => this.onChildChanged(newState, rowID, Screen)}/>,
+            },
+          },
+            
+          {
+            title: 'igniteSTEM',
+            tabBarPosition: 'top',
+            initialRouteName: this.state.currentScreen,
+            tabBarOptions: {
+              activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#fff',
+              style: {
+              marginTop: Platform.OS === 'ios' ? 50 : 24
+            },
+
+            },
+          }
+        );
+      // console.log("Parent:");
+      // console.log(this.state);
+      if (this.state.buttons.length == 0) {
+          // console.log(this.state.buttons.length);
+          return (<Text>Loading...</Text>);
+      }
+      
+    return (
+      <SimpleTabs/>
+    );
+  }
+}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -58,4 +150,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SimpleTabs;
+export default Scheduler;

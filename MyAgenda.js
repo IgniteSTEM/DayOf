@@ -12,16 +12,26 @@ class MyAgenda extends React.Component {
     };
 
   render() {
+    //console.log(this.props.navigation);
     //this.props.callbackScreen('MySchedule');
     return (
     <View  style={styles.container}>
-    
-    <ScrollView>
-  
-    <Data personalSchedule = {0} initialState={this.props.initialState} screen = {'MySchedule'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
+      <View style={styles.noEventsView}>
+        <Text style={styles.noEvents}>
+          No Events Selected! Tap the Flame Next To Events To Add Reminders and Create Your Personalized Agenda! 
+        </Text>
+        {/*<Button
+          onPress={() => this.props.navigation.navigate('Scheduler')}
+          title="Go to settings tab"
+          style={styles.noEvents}
+        />*/}
+      </View>
+      <ScrollView>
+
+      <Data personalSchedule = {0} initialState={this.props.initialState} screen = {'MySchedule'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
+        
+      </ScrollView>
       
-    </ScrollView>
-    
     </View>
     );
   }
@@ -47,6 +57,19 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'cover'
   },
+  noEvents: {
+    color: '#A5A5A5',
+    //fontWeight: 'bold',
+    fontSize: 12,
+    position: 'absolute',
+    paddingTop: 10
+  },
+  noEventsView:{
+    paddingLeft: 15,
+    paddingRight: 15,
+    marginLeft: .2,
+    alignItems: 'center'
+  }
 });
 
 export default MyAgenda;

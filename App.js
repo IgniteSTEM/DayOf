@@ -20,7 +20,7 @@ class Scheduler extends React.Component {
       };
       this.getKey();
       //if(this.state.)
-      console.log(JSON.stringify(this.state.buttons));
+      console.log(this.state.buttons);
    }
 
    async getKey() {
@@ -39,17 +39,6 @@ class Scheduler extends React.Component {
       console.log("Error saving data" + error);
     }
   }
-
-  // async resetKey() {
-  //   try {
-  //     await AsyncStorage.removeItem('@MySuperStore:key');
-  //     const value = await AsyncStorage.getItem('@MySuperStore:key');
-  //     this.setState({myKey: value});
-  //   } catch (error) {
-  //     console.log("Error resetting data" + error);
-  //   }
-  // }
-
 
   fetchData() {
     fetch(url)

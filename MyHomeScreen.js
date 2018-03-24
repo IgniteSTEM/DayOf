@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight } from 'react-native';
 import { TabNavigator, StackNavigator} from 'react-navigation';
 import Data from './Data.js'
-import Scheduler from './Scheduler.js';
+//import Scheduler from './Scheduler.js';
 
 class MyHomeScreen extends Component {
 static navigationOptions = {

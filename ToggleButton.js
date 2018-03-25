@@ -19,7 +19,7 @@ class ToggleButton extends React.Component {
   render() {
       // console.log(this.props);
     return (
-      <TouchableHighlight underlayColor='rgba(0,0,0,.1)' style={styles.thumbnail} onPress={() => this.clickedMe()}>
+      <TouchableHighlight underlayColor='rgba(0,0,0,0)' style={styles.thumbnail} onPress={() => this.clickedMe()}>
           <Image
           source={require('./igniteStemLogo.png')}
           style={styles.picture}

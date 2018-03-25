@@ -58,12 +58,16 @@ event: {
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#DDDDDD',
-    borderWidth: 0.2,
+    borderWidth: StyleSheet.hairlineWidth,
+    overflow: 'hidden',
+    borderRadius: 4,
     paddingLeft: 5,
     marginLeft: .2,
     marginBottom: 10,
+    marginTop: 10,
     paddingTop: 5, 
     paddingBottom: 5,
+    borderRadius: 4,
 
   },
   name: {

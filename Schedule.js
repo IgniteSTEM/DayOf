@@ -16,7 +16,6 @@ class Schedule extends React.Component {
     return (
     <View  style={styles.container}>
     <ScrollView>
-  
     <Data personalSchedule = {1} initialState={this.props.initialState} screen = {'Scheduler'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
 
       
@@ -32,7 +31,8 @@ const styles = StyleSheet.create({
     marginTop: 3,
     flexGrow: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between' 
+    justifyContent: 'space-between',
+    backgroundColor: 'white' 
   },
   home: {
     flex: 1,

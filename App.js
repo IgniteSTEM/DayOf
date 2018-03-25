@@ -5,6 +5,7 @@ import Data from './Data.js';
 import MyHomeScreen from './MyHomeScreen.js';
 import Schedule from './Schedule.js';
 import MyAgenda from './MyAgenda.js';
+import checkPropTypes from 'prop-types';
 
 var url = 'http://ignite-stem.herokuapp.com/api/schedule';
 
@@ -20,7 +21,7 @@ class Scheduler extends React.Component {
       };
       this.getKey();
       //if(this.state.)
-      console.log(this.state.buttons);
+      //console.log(this.state.buttons);
    }
 
    async getKey() {
@@ -78,7 +79,6 @@ class Scheduler extends React.Component {
   }
 
   render() {
-    
     //const { navigate } = this.props.navigation.state.routeName;
     const SimpleTabs = TabNavigator(
           {
@@ -97,14 +97,21 @@ class Scheduler extends React.Component {
             title: 'igniteSTEM',
             tabBarPosition: 'top',
             initialRouteName: this.state.currentScreen,
-            tabBarOptions: {
-              activeTintColor: Platform.OS === 'ios' ? '#e91e63' : '#fff',
-              style: {
-              marginTop: Platform.OS === 'ios' ? 50 : 24
-            },
-
-            },
+            animationEnabled: true,
+            swipeEnabled: true,
+    tabBarOptions: {
+        showIcon: true,
+        activeTintColor: 'blue',
+        inactiveTintColor:'#999999',
+        style: {
+            backgroundColor: '#fff',
+        },
+        indicatorStyle: {
+            backgroundColor: 'white'
+        }
+            
           }
+        }
         );
       // console.log("Parent:");
       // console.log(this.state);

@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight, AsyncStorage } from 'react-native';
-import { TabNavigator, StackNavigator, NavigationActions} from 'react-navigation';
-import Data from './Data.js';
+import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, ListView, TouchableOpacity, AsyncStorage } from 'react-native';
+import { TabNavigator, StackNavigator, DrawerNavigator, NavigationActions} from 'react-navigation';
 import MyHomeScreen from './MyHomeScreen.js';
+import ContactUs from './ContactUs.js';
 import Schedule from './Schedule.js';
 import MyAgenda from './MyAgenda.js';
-import checkPropTypes from 'prop-types';
+import { Icon } from 'react-native-elements'
 
 var url = 'http://ignite-stem.herokuapp.com/api/schedule';
 
-var textElem = React.createElement(Data);
+//var textElem = React.createElement(Data);
 
 class Scheduler extends React.Component {
     constructor() {
@@ -19,6 +19,7 @@ class Scheduler extends React.Component {
         buttons: [],
         currentScreen: 'Home'
       };
+      
       this.getKey();
       //if(this.state.)
       //console.log(this.state.buttons);
@@ -80,39 +81,6 @@ class Scheduler extends React.Component {
 
   render() {
     //const { navigate } = this.props.navigation.state.routeName;
-    const SimpleTabs = TabNavigator(
-          {
-            Home: {
-              screen: MyHomeScreen
-            },
-            Scheduler: {
-              screen: props=> <Schedule initialState={this.state.buttons} callbackParent={(newState, rowID, Screen) => this.onChildChanged(newState, rowID, Screen)}/>,
-            },
-            MySchedule: {
-              screen: props=> <MyAgenda initialState={this.state.buttons} callbackParent={(newState, rowID, Screen) => this.onChildChanged(newState, rowID, Screen)}/>,
-            },
-          },
-            
-          {
-            title: 'igniteSTEM',
-            tabBarPosition: 'top',
-            initialRouteName: this.state.currentScreen,
-            animationEnabled: true,
-            swipeEnabled: true,
-    tabBarOptions: {
-        showIcon: true,
-        activeTintColor: 'blue',
-        inactiveTintColor:'#999999',
-        style: {
-            backgroundColor: '#fff',
-        },
-        indicatorStyle: {
-            backgroundColor: 'white'
-        }
-            
-          }
-        }
-        );
       // console.log("Parent:");
       // console.log(this.state);
       if (this.state.buttons.length == 0) {
@@ -121,10 +89,85 @@ class Scheduler extends React.Component {
       }
       
     return (
-      <SimpleTabs/>
+      <AppNavigator screenProps={{ initialState:this.state.buttons, callbackParent:(newState, rowID, Screen) => this.onChildChanged(newState, rowID, Screen)}} />
     );
   }
 }
+
+
+const SimpleTabs = TabNavigator(
+          {
+            Scheduler: {
+              screen: Schedule
+            },
+            MySchedule: {
+              screen: MyAgenda
+            },
+          },
+            
+          {
+            title: 'Scheduler',
+            tabBarPosition: 'top',
+            animationEnabled: true,
+            swipeEnabled: true,
+    tabBarOptions: {
+        showIcon: true,
+        activeTintColor: 'blue',
+        inactiveTintColor:'#999999',
+        style: {
+            backgroundColor: '#fff',
+            margin: 0,
+            paddingBottom: 10,
+            height: 0
+        },
+        tabStyle: {
+          height: 30,
+           margin: 0,
+        },
+        labelStyle:{
+          margin: 0,
+          marginTop: 0
+        },
+        indicatorStyle: {
+            backgroundColor: 'white'
+        }
+            
+          }
+        }
+        );
+
+const MyApp = DrawerNavigator({
+  Home: {
+    screen: MyHomeScreen,
+  },
+  Scheduler: {
+    screen: SimpleTabs,
+  },
+  ContactUs: {
+    screen: ContactUs,
+  },
+  },
+);
+
+const MenuButton = (props) => {
+  return (
+  <View>
+    <TouchableOpacity onPress={() => {props.navigation.navigate('DrawerToggle')}} style={{padding: 10, marginLeft:10}}>
+      <Icon name="bars" color="black" type={"font-awesome"}/>
+    </TouchableOpacity>
+  </View>
+  );
+};
+
+const AppNavigator = new StackNavigator({
+  Main: {
+    screen: MyApp,
+    navigationOptions: ({ navigation }) => (
+      {headerLeft : <MenuButton navigation={navigation} />,
+  }),
+  }
+});
+
 
 
 const styles = StyleSheet.create({

@@ -60,14 +60,13 @@ event: {
     borderColor: '#DDDDDD',
     borderWidth: StyleSheet.hairlineWidth,
     overflow: 'hidden',
-    borderRadius: 4,
+    //borderRadius: 4,
     paddingLeft: 5,
     marginLeft: .2,
-    marginBottom: 10,
-    marginTop: 10,
+    //marginBottom: 5,
+    marginTop: 3,
     paddingTop: 5, 
     paddingBottom: 5,
-    borderRadius: 4,
 
   },
   name: {

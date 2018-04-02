@@ -8,15 +8,16 @@ import MyHomeScreen from './MyHomeScreen.js';
 class Schedule extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'Schedule',
-        headerTitle: 'igniteSTEM',
+        headerTitle: 'Conference Schedule',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
 
   render() {
+    console.log(this.props.screenProps.initialState);
     return (
     <View  style={styles.container}>
     <ScrollView>
-    <Data personalSchedule = {1} initialState={this.props.initialState} screen = {'Scheduler'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
+    <Data personalSchedule = {1} initialState={this.props.screenProps.initialState} screen = {'Scheduler'} callbackParent={this.props.screenProps.callbackParent} onChange={()=>this.handleChange()}/>
 
       
     </ScrollView>
@@ -31,8 +32,7 @@ const styles = StyleSheet.create({
     marginTop: 3,
     flexGrow: 1,
     flexDirection: 'column',
-    justifyContent: 'space-between',
-    backgroundColor: 'white' 
+    justifyContent: 'space-between' 
   },
   home: {
     flex: 1,

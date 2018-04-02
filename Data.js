@@ -4,13 +4,12 @@ import Events from './events.js'
 import { Constants, Notifications, Permissions } from 'expo';
 
 var url = 'http://ignite-stem.herokuapp.com/api/schedule';
-var createReactClass = require('create-react-class');
+//var createReactClass = require('create-react-class');
 
-class Data extends Component {
+class Data extends React.Component {
 
   constructor({initialState}) {
     super();
-     
       this.state = {
         buttons: initialState,
         loaded: false,
@@ -59,7 +58,7 @@ class Data extends Component {
       // console.log(this.props.initialState[rowID]);
     if(this.props.personalSchedule == 0 && this.state.buttons[rowID].button == true || this.props.personalSchedule == 1) {
     return (
-      <Events name = {rowData.name} location = {rowData.location} time = {rowData.time} onPress={ () => this.notification(rowID, rowData)}
+      <Events name = {rowData.Session + ": " + rowData.Speaker} location = {rowData.Location} time = {rowData.Time} onPress={ () => this.notification(rowID, rowData)}
       initialState={this.props.initialState[rowID]} screen = {this.props.screen} callbackParent={this.props.callbackParent} rowID={rowID} />
       );
     }

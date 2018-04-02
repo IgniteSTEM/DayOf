@@ -7,7 +7,7 @@ import MyHomeScreen from './MyHomeScreen.js';
 class MyAgenda extends React.Component {
   static navigationOptions = {
         tabBarLabel: 'My Agenda',
-        headerTitle: 'igniteSTEM',
+        headerTitle: 'My Agenda',
         // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
 
@@ -28,7 +28,7 @@ class MyAgenda extends React.Component {
       </View>
       <ScrollView>
 
-      <Data personalSchedule = {0} initialState={this.props.initialState} screen = {'MySchedule'} callbackParent={this.props.callbackParent} onChange={()=>this.handleChange()}/>
+      <Data personalSchedule = {0} initialState={this.props.screenProps.initialState} screen = {'MySchedule'} callbackParent={this.props.screenProps.callbackParent} onChange={()=>this.handleChange()}/>
         
       </ScrollView>
       

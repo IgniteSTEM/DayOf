@@ -8,23 +8,15 @@ class MyAgenda extends React.Component {
   static navigationOptions = {
         tabBarLabel: 'My Agenda',
         headerTitle: 'My Agenda',
-        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
 
   render() {
-    //console.log(this.props.navigation);
-    //this.props.callbackScreen('MySchedule');
     return (
     <View  style={styles.container}>
       <View style={styles.noEventsView}>
         <Text style={styles.noEvents}>
-          No Events Selected! Tap the Flame Next To Events To Add Reminders and Create Your Personalized Agenda! 
+          No Events Selected! Tap Events To Add Reminders and Create Your Personalized Agenda! 
         </Text>
-        {/*<Button
-          onPress={() => this.props.navigation.navigate('Scheduler')}
-          title="Go to settings tab"
-          style={styles.noEvents}
-        />*/}
       </View>
       <ScrollView>
 
@@ -59,7 +51,6 @@ const styles = StyleSheet.create({
   },
   noEvents: {
     color: '#A5A5A5',
-    //fontWeight: 'bold',
     fontSize: 12,
     position: 'absolute',
     paddingTop: 10

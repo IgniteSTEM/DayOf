@@ -9,11 +9,9 @@ class Schedule extends React.Component {
     static navigationOptions = {
         tabBarLabel: 'Schedule',
         headerTitle: 'Conference Schedule',
-        // Note: By default the icon is only shown on iOS. Search the showIcon option below.
     };
 
   render() {
-    console.log(this.props.screenProps.initialState);
     return (
     <View  style={styles.container}>
     <ScrollView>

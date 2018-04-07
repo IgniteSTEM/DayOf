@@ -2,7 +2,6 @@ import React from 'react';
 import {Alert, Text, View, Button, Platform, Image, ScrollView, StyleSheet, TouchableHighlight } from 'react-native';
 import { Notifications } from 'expo';
 import {StackNavigator} from 'react-navigation';
-import ToggleButton from './ToggleButton.js'
 
 class Events extends React.Component {
   constructor({initialState}) {
@@ -10,13 +9,13 @@ class Events extends React.Component {
     this.state = {
       button: initialState,
     }
-    /*this.handleState = this.handleState.bind(this);*/
   }
 
-  /*handleState(theState){
-         this.setState({button: theState});
-         console.log(theState);
-    }*/
+  clickedMe(){
+    var newState = !this.props.initialState.button;
+    this.props.callbackParent(newState, this.props.rowID, this.props.screen);
+ }
+
    componentWillReceiveProps(nextProps) {
     if(JSON.stringify(this.props.initialState) !== JSON.stringify(nextProps.initialState)) 
     {
@@ -29,44 +28,46 @@ class Events extends React.Component {
 
   	const {time, name, location} = this.props;
     return (
-     <View style = {styles.event} >
-     <ToggleButton onPress={this.props.onPress} initialState={this.props.initialState} callbackParent={this.props.callbackParent}
-     rowID={this.props.rowID} screen = {this.props.screen}/>
-      <View style = {styles.rightContainer}>
-     	<Text style = {styles.name}> {name} </Text>
-     	<Text style = {styles.location}> Location: {location} </Text>
-     	<Text style = {styles.time}> Time: {time} </Text>
-      </View>
-     </View>
+     <TouchableHighlight underlayColor='rgba(0,0,0,0)' onPress={() => this.clickedMe()}>
+        <View style={styles.event}>
+            <Image
+            source={require('./igniteStemLogo.png')}
+            style={styles.picture}>
+
+              <View style={styles.picture}>
+                <Image
+                  source={require('./checkbox.png')}
+                  style={[styles.checkVisible, this.props.initialState.button ? {opacity: 1} : {opacity: 0}]}>
+                </Image>
+              </View>
+            </Image>
+
+            <View style = {styles.rightContainer}>
+              <Text style = {styles.name}> {name} </Text>
+              <Text style = {styles.location}> Location: {location} </Text>
+              <Text style = {styles.time}> Time: {time} </Text>
+            </View>
+          </View>
+      </TouchableHighlight>
     );
   }
 }
-/*const StacksOnTabs = StackNavigator({
-  Root: {
-    screen: SimpleTabs,
-  },
-  Profile: {
-    screen: MyProfileScreen,
-    path: '/people/:name',
-  },
-  });*/
 
 const styles = StyleSheet.create({
 event: {
     backgroundColor: 'white',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     borderColor: '#DDDDDD',
     borderWidth: StyleSheet.hairlineWidth,
     overflow: 'hidden',
-    //borderRadius: 4,
     paddingLeft: 5,
     marginLeft: .2,
-    //marginBottom: 5,
     marginTop: 3,
     paddingTop: 5, 
     paddingBottom: 5,
+    padding: 10
 
   },
   name: {
@@ -75,14 +76,14 @@ event: {
     fontSize: 15,
     textAlign: 'left',
     paddingLeft: 15,
+    paddingRight: 15,
     paddingBottom: 5,
-    
   },
   time: {
     fontSize:15,
     color: '#A5A5A5',
-    textAlign: 'left',
     paddingLeft: 15,
+    flex: 10
   },
   location: {
     fontSize:15,
@@ -91,11 +92,20 @@ event: {
     paddingLeft: 15,
   },
   rightContainer: {
-    flex: 1,
+    flex: 1, 
   },
   thumbnail: {
-    width: 30,
-    height: 40,
+     width: 40,
+     height: 53,
+    marginLeft: 7,
+  },
+  picture: {
+    width: 40,
+    height: 53,
+  },
+  checkVisible: {
+    width: 10,
+    height: 10,
   },
 });
 

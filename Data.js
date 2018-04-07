@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
-import {Text, View, Platform, Image, ScrollView, StyleSheet, ListView, TouchableHighlight } from 'react-native';
-import Events from './events.js'
+import {Text, View, Platform, Alert, Image, ScrollView, StyleSheet, ListView, TouchableHighlight } from 'react-native';
+import Events from './events.js';
 import { Constants, Notifications, Permissions } from 'expo';
+import moment from 'moment';
 
 var url = 'http://ignite-stem.herokuapp.com/api/schedule';
-//var createReactClass = require('create-react-class');
+
+async function getiOSNotificationPermission() {
+  const { status } = await Permissions.getAsync(
+    Permissions.NOTIFICATIONS
+  );
+  if (status !== 'granted') {
+    await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  }
+}
 
 class Data extends React.Component {
 
@@ -18,7 +27,12 @@ class Data extends React.Component {
         }),
       }
     }
-    /*this.handleState = this.handleState.bind(this)  */
+
+  componentWillMount() {
+    getiOSNotificationPermission();
+  }
+
+
 
     componentWillReceiveProps(nextProps) {
     if(JSON.stringify(this.props.initialState) !== JSON.stringify(nextProps.initialState)) 
@@ -29,13 +43,12 @@ class Data extends React.Component {
 }
 
   render() {
-    // console.log(this.props.initialState);
     const ds = this.state.dataSource.cloneWithRows(this.props.initialState);
-
+    Notifications.cancelAllScheduledNotificationsAsync();
     return (
       <ListView
         dataSource={ds}
-        renderRow={this.renderMovie.bind(this)}
+        renderRow={this.renderRow.bind(this)}
         style={styles.listView}
       />
     );
@@ -52,13 +65,13 @@ class Data extends React.Component {
   }
 
 
-  renderMovie(rowData: string, sectionID: number, rowID: number) {
-      // console.log("Rendering row");
-      // console.log(rowData);
-      // console.log(this.props.initialState[rowID]);
+  renderRow(rowData: string, sectionID: number, rowID: number) {
+    if(this.props.personalSchedule == 0 && this.state.buttons[rowID].button == true) {
+      this.notification(rowID, rowData);
+    }
     if(this.props.personalSchedule == 0 && this.state.buttons[rowID].button == true || this.props.personalSchedule == 1) {
     return (
-      <Events name = {rowData.Session + ": " + rowData.Speaker} location = {rowData.Location} time = {rowData.Time} onPress={ () => this.notification(rowID, rowData)}
+      <Events name = {rowData.session + ": " + rowData.speaker} location = {rowData.location} time = {rowData.time}
       initialState={this.props.initialState[rowID]} screen = {this.props.screen} callbackParent={this.props.callbackParent} rowID={rowID} />
       );
     }
@@ -67,8 +80,8 @@ class Data extends React.Component {
 
   notification(rowID, rowData){
       const localnotification = {
-        title: `${rowData.name} is speaking in 10 minutes`,
-        body: `${rowData.location}`,
+        title: `${rowData.speaker} is speaking in 10 minutes`,
+        body: `Location: ${rowData.location}`,
         android: {
           sound: true,
         },
@@ -77,14 +90,17 @@ class Data extends React.Component {
         },
       };
 
-      let sendAfterFiveSeconds = Date.now();
-      sendAfterFiveSeconds += 1000;
-
-      const schedulingOptions = { time: sendAfterFiveSeconds };
+      var location = rowData.time.indexOf('-');
+      var timeString = rowData.time.substr(0,location);
+      var theTime = '2018-04-13 ' + timeString;
+      var times = moment(theTime, 'YYYY-MM-DD HH:mm a').subtract(10, 'minutes').toDate();
+      if(Date.now()<=times){
+      const schedulingOptions = { time: times };
       Notifications.scheduleLocalNotificationAsync(
         localnotification,
         schedulingOptions
       );
+    }
     }
   }
 

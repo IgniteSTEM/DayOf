@@ -13,11 +13,7 @@ static navigationOptions = {
     return (
       <View style={styles.home}>
       
-    <Image source={require('./home.jpg')} style={styles.image} />
-      {/*<Button
-        onPress={() => this.props.navigation.navigate('Schedule')}
-        title="Go to notifications"
-      />*/}
+    <Image source={require('./banner.png')} style={styles.image} />
     </View>
     );
   }

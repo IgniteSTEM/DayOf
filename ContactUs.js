@@ -12,11 +12,12 @@ static navigationOptions = {
     return (
       <View style={styles.home}>
     <Image source={require('./logo.png')} style={styles.image1}/>
-    <Image source={require('./contactus.png')} style={styles.image2} />
-      {/*<Button
-        onPress={() => this.props.navigation.navigate('Schedule')}
-        title="Go to notifications"
-      />*/}
+    <View style={styles.text1}>
+    <Text style={{lineHeight: 24}}>We would love to hear from you, 
+    whether you want more  information on any of our previous or upcoming conferences, how you can get more involved in the 
+    community, or any other concerns you may have.</Text>
+    </View>
+    <Text selectable={true} style={{marginLeft: Dimensions.get('window').width/15,}}>mdijkgraaf@princeton.edu</Text>
     </View>
     );
   }
@@ -28,10 +29,15 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
   },
+  text1:{
+    flexDirection: 'row',
+     marginLeft: Dimensions.get('window').width/15,
+     marginRight: Dimensions.get('window').width/15,
+     marginBottom: Dimensions.get('window').height/7,
+  },
   image1: {
     resizeMode: 'contain',
     width: Dimensions.get('window').width,
-    marginBottom: 0
   },
   image2: {
     resizeMode: 'contain',
